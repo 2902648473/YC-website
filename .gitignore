@@ -1,6 +1,11 @@
 dist/
 .work/
 node_modules/
+.wrangler/
+.tanstack/
+worker-configuration.d.ts
+.dev.vars
+.dev.vars.*
 *.log
 .env
 .env.*

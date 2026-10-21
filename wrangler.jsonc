@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yc-website",
+  "main": "@tanstack/react-start/server-entry",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "observability": { "enabled": true },
+  "vars": { "SITE_URL": "", "SITE_INDEXING": "false" }
+}

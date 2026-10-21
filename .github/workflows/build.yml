@@ -1,4 +1,4 @@
-name: Build website
+name: Check Cloudflare Worker
 
 on:
   push:
@@ -13,10 +13,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     env:
-      SITE_URL: ${{ vars.SITE_URL }}
-      SITE_INDEXING: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && vars.SITE_INDEXING || 'false' }}
+      WRANGLER_SEND_METRICS: 'false'
     steps:
       - name: Check out source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -26,15 +25,33 @@ jobs:
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: '24'
-          package-manager-cache: false
-      - name: Test deployment configuration
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Validate settings and TypeScript
+        run: npm run check
+      - name: Test indexing policy
         run: npm test
-      - name: Build and check public files
-        run: npm run build && npm run check
-      - name: Save deployable website
+      - name: Build Worker and browser assets
+        run: npm run build
+      - name: Check deployable bundle without uploading
+        run: npm run deploy:check
+      - name: Test production Worker locally
+        shell: bash
+        run: |
+          npm run preview > /tmp/yc-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run test:smoke || { cat /tmp/yc-preview.log; exit 1; }
+      - name: Save complete build for inspection
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: yc-website-dist
+          name: yc-website-worker-build
           path: dist/
+          include-hidden-files: true
           if-no-files-found: error
           retention-days: 7

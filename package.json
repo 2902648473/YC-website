@@ -2,15 +2,38 @@
   "name": "yc-website",
   "version": "1.0.0",
   "private": true,
-  "description": "玉成智造静态展示网站",
+  "description": "玉成智造官网 · TanStack Start / Cloudflare Workers",
   "license": "UNLICENSED",
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "check": "node scripts/check.mjs",
+    "dev": "vite --host 127.0.0.1 --port 3000",
+    "build": "vite build",
+    "check": "node scripts/validate-config.mjs && wrangler types && tsc --noEmit",
     "test": "node --test scripts/deployment-config.test.mjs",
-    "preview": "node scripts/serve.mjs --port 4173",
-    "test:browser": "node scripts/browser-test.mjs"
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test:browser": "node scripts/browser-test.mjs",
+    "test:smoke": "node scripts/smoke-test.mjs",
+    "cf-typegen": "wrangler types",
+    "deploy": "npm run build && wrangler deploy",
+    "deploy:check": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "@tanstack/react-router": "1.170.45",
+    "@tanstack/react-start": "1.169.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.64.0",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.5",
+    "wrangler": "4.151.3"
   }
 }

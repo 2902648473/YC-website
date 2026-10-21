@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getDeploymentConfig, pageMetadata, robotsText, sitemapXml } from './deployment-config.mjs';
+import { getDeploymentConfig, getRequestDeploymentConfig, pageMetadata, robotsText, sitemapXml } from './deployment-config.mjs';
 
 test('local and preview builds default to noindex without guessing a public URL', () => {
   const config = getDeploymentConfig({ URL: 'https://preview.example.com', DEPLOY_URL: 'https://deploy.example.com' });
@@ -8,6 +8,20 @@ test('local and preview builds default to noindex without guessing a public URL'
   assert.deepEqual(pageMetadata(config, 'index'), { robots: 'noindex, nofollow', canonical: null });
   assert.match(robotsText(config), /User-agent: \*\nDisallow: \/\n$/);
   assert.equal(sitemapXml(config), null);
+});
+
+test('only the configured HTTPS origin is indexable; previews retain the canonical but disallow crawling', () => {
+  const vars = { SITE_URL: 'https://www.example.com', SITE_INDEXING: 'true' };
+  const live = getRequestDeploymentConfig(vars, 'https://www.example.com/about.html');
+  assert.equal(live.indexing, true);
+  assert.equal(pageMetadata(live, 'about').robots, 'index, follow');
+  for (const url of ['http://www.example.com/', 'https://preview.workers.dev/', 'http://127.0.0.1:4173/']) {
+    const preview = getRequestDeploymentConfig(vars, url);
+    assert.equal(preview.indexing, false);
+    assert.equal(pageMetadata(preview, 'about').canonical, 'https://www.example.com/about.html');
+    assert.equal(sitemapXml(preview), null);
+    assert.match(robotsText(preview), /Disallow: \//);
+  }
 });
 
 test('a final domain can be configured while search indexing remains disabled', () => {

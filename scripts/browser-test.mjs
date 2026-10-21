@@ -92,20 +92,24 @@ async function runCase(name, operation) {
   }
 }
 
-function observe(page) {
+function observe(page, { expected404 = false, disabledJS = false } = {}) {
   const errors = [];
   page.on('pageerror', (error) => errors.push(`pageerror: ${error.message}`));
-  page.on('console', (message) => { if (message.type() === 'error') errors.push(`console: ${message.text()}`); });
+  page.on('console', (message) => { if (message.type() === 'error' && !(expected404 && message.text().includes('404 (Not Found)'))) errors.push(`console: ${message.text()}`); });
   page.on('response', (response) => {
-    if (response.status() >= 400) errors.push(`HTTP ${response.status()}: ${response.url()}`);
+    if (response.status() >= 400 && !(expected404 && response.status() === 404 && response.request().isNavigationRequest())) errors.push(`HTTP ${response.status()}: ${response.url()}`);
   });
-  page.on('requestfailed', (request) => errors.push(`requestfailed: ${request.url()} ${request.failure()?.errorText}`));
+  page.on('requestfailed', (request) => {
+    // Chromium blocks modulepreload requests when JavaScript is deliberately disabled.
+    if (disabledJS && request.resourceType() === 'script' && request.failure()?.errorText === 'csp') return;
+    errors.push(`requestfailed: ${request.url()} ${request.failure()?.errorText}`);
+  });
   return errors;
 }
 
 async function go(page, name) {
   const response = await page.goto(address(name), { waitUntil: 'networkidle' });
-  assert.equal(response.status(), 200, `页面 ${name} 应独立返回 HTTP 200`);
+  assert.equal(response.status(), name === '404' ? 404 : 200, `页面 ${name} 应独立返回正确 HTTP 状态`);
   await page.locator('h1').waitFor({ state: 'visible' });
 }
 
@@ -201,6 +205,7 @@ async function dialogScenario(page, selector) {
     assert.equal(await dialog.evaluate((element) => element.contains(document.activeElement)), true, '弹窗打开后焦点应在内部');
   };
   await open();
+  const caption = await page.locator('#dialog-caption').textContent();
   const dialogKind = selector.includes('wechat') ? 'wechat' : 'gallery';
   await screenshot(page, `${dialogKind}-dialog${page.viewportSize().width}.png`, { fullPage: false });
   for (let index = 0; index < 4; index += 1) {
@@ -221,7 +226,7 @@ async function dialogScenario(page, selector) {
   assert.ok(bounds.x > 2 || bounds.y > 2, '应存在可点击的弹窗外背景');
   await page.mouse.click(2, 2);
   await assertDialogClosed(page, trigger);
-  return { source, closeMethods: ['Escape', 'close button', 'backdrop'], keyboardFocus: true };
+  return { source, caption, closeMethods: ['Escape', 'close button', 'backdrop'], keyboardFocus: true };
 }
 
 try {
@@ -230,7 +235,7 @@ try {
     for (const name of pages) {
       await runCase(`layout-${name}-${width}`, async () => {
         const page = await context.newPage();
-        const errors = observe(page);
+        const errors = observe(page, { expected404: name === '404' });
         try {
           await go(page, name);
           assert.equal(await page.locator('h1').count(), 1);
@@ -312,7 +317,7 @@ try {
       try {
         await go(page, 'contact');
         const result = await dialogScenario(page, 'main a[data-wechat]');
-        assert.match(await page.locator('#dialog-caption').textContent(), /保存/);
+        assert.match(result.caption, /保存/);
         assert.deepEqual(errors, []);
         return result;
       } finally { await context.close(); }
@@ -324,7 +329,7 @@ try {
       try {
         await go(page, 'facilities');
         const result = await dialogScenario(page, 'a[data-lightbox]');
-        assert.equal(await page.locator('#dialog-caption').textContent(), '拆解作业工位');
+        assert.equal(result.caption, '拆解作业工位');
         assert.deepEqual(errors, []);
         return result;
       } finally { await context.close(); }
@@ -440,7 +445,7 @@ try {
   await runCase('about-carousel-no-javascript', async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 850 } });
     const page = await context.newPage();
-    const errors = observe(page);
+    const errors = observe(page, { disabledJS: true });
     try {
       await go(page, 'about');
       const carousel = page.locator('[data-carousel]');
@@ -470,7 +475,7 @@ try {
       await go(page, 'about');
       const trigger = page.locator('[data-carousel-slide]:visible a');
       const blocked = await trigger.getAttribute('href');
-      await page.route(blocked, (route) => route.abort('failed'));
+      await page.route(new URL(blocked, baseUrl).href, (route) => route.abort('failed'));
       await trigger.click();
       await page.waitForFunction(() => document.querySelector('#dialog-caption').textContent.includes('暂时无法载入'));
       await page.locator('[data-dialog-gallery-next]').click();
@@ -588,7 +593,7 @@ try {
   await runCase('no-javascript-fallbacks', async () => {
     const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 375, height: 850 } });
     const page = await context.newPage();
-    const errors = observe(page);
+    const errors = observe(page, { disabledJS: true, expected404: true });
     try {
       for (const name of pages) {
         await go(page, name);
