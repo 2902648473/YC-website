@@ -1,0 +1,16 @@
+{
+  "name": "yc-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "玉成智造静态展示网站",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs",
+    "test": "node --test scripts/deployment-config.test.mjs",
+    "preview": "node scripts/serve.mjs --port 4173",
+    "test:browser": "node scripts/browser-test.mjs"
+  }
+}

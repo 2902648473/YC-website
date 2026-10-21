@@ -1,0 +1,40 @@
+.preparation-tool { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border); min-width: 0; }
+.preparation-tool > h3 { margin: 0 0 10px; font-size: 20px; }
+.preparation-tool__intro { margin: 0 0 18px; color: var(--muted); }
+.preparation-table-hint { display: none; margin-bottom: 10px; color: var(--muted); font-size: 13px; }
+.preparation-table-scroll { max-width: 100%; overflow-x: auto; border: 1px solid var(--border); background: #fff; overscroll-behavior-x: contain; }
+.preparation-table { width: 100%; min-width: 660px; border-collapse: collapse; table-layout: fixed; font-size: 14px; line-height: 1.7; }
+.preparation-table .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.preparation-table th, .preparation-table td { padding: 12px; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.preparation-table th { color: var(--navy); background: #edf3f7; font-weight: 700; border-bottom: 1px solid var(--border); }
+.preparation-table td { color: var(--muted); }
+.preparation-table th + th, .preparation-table td + td { border-left: 1px solid var(--border); }
+.preparation-template { min-width: 0; }
+.preparation-template--compact { margin-top: 22px; }
+.preparation-template > label { display: block; margin: 0 0 10px; color: var(--navy); font-size: 16px; font-weight: 700; }
+.preparation-template__help { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+.preparation-template > .preparation-template__help { margin: -2px 0 12px; }
+.preparation-template__text { display: block; width: 100%; max-width: 100%; min-width: 0; min-height: 248px; margin: 0; padding: 16px 18px; border: 1px solid #abc4d4; border-radius: var(--radius); background: #fff; color: var(--text); font: inherit; font-size: 16px; line-height: 2; resize: vertical; tab-size: 16; }
+.preparation-template__text--table { min-height: 120px; line-height: 1.8; font-family: Consolas, "Microsoft YaHei", monospace; font-size: 14px; }
+.preparation-template__text:focus-visible, .preparation-table-scroll:focus-visible { outline: 3px solid #dc8b10; outline-offset: 4px; }
+.preparation-template__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 14px; }
+.consultation-template { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); gap: 70px; align-items: start; }
+.consultation-template__intro { min-width: 0; }
+.consultation-template__intro > p { margin-top: 20px; color: var(--muted); }
+.consultation-template__intro > p + p { font-size: 15px; }
+
+@media (max-width: 1000px) {
+  .consultation-template { gap: 36px; }
+}
+
+@media (max-width: 760px) {
+  .preparation-table-hint { display: block; }
+  .consultation-template { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .consultation-template__intro > p { margin-top: 16px; }
+  .preparation-tool { margin-top: 26px; }
+}
+
+@media (max-width: 480px) {
+  .preparation-template__text { padding: 14px; min-height: 300px; }
+  .preparation-template__text--table { min-height: 120px; }
+}

@@ -1,0 +1,71 @@
+/* About-page history and evidence, scoped away from other pages. */
+.page-about .about-company-grid { display: grid; grid-template-columns: 1.2fr .9fr; gap: 64px; align-items: start; }
+.page-about .about-company-lead { font-size: 24px; line-height: 1.65; color: var(--navy); margin-top: 20px; }
+.page-about .about-company-copy > p:not(.about-company-lead) { margin-top: 18px; color: var(--muted); line-height: 1.95; }
+.page-about .about-company-links { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; }
+.page-about .about-credentials { padding: 30px; background: var(--soft); border-top: 3px solid var(--green); }
+.page-about .about-credentials-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.page-about .about-credentials-heading > .icon { color: var(--primary); }
+.page-about .about-credentials h3 { font-size: 22px; }
+.page-about .about-credentials .certificate-company { margin: 0; font-size: 15px; }
+.page-about .about-credentials .certificate-company strong { display: block; font-size: 18px; margin-top: 6px; }
+.page-about .about-credentials ul { padding-left: 20px; margin-block: 20px; color: var(--navy); font-size: 15px; }
+.page-about .about-credentials li + li { margin-top: 8px; }
+.page-about .about-credentials > p:not(.certificate-company) { color: var(--muted); font-size: 14px; }
+.page-about .about-credentials > .text-link { margin-top: 16px; }
+.page-about .about-history-heading { display: flex; justify-content: space-between; align-items: start; gap: 48px; margin-bottom: 36px; }
+.page-about .about-history-heading > div { max-width: 870px; }
+.page-about .about-history-subject { margin-top: 18px; padding-left: 20px; border-left: 3px solid var(--green); color: var(--muted); font-size: 14px; flex-shrink: 0; }
+.page-about .about-history-subject strong { color: var(--navy); font-size: 18px; font-weight: 600; }
+.page-about .about-timeline { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 56px; }
+.page-about .about-timeline > li { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 22px; padding-block: 27px; border-top: 1px solid #cbdbe5; }
+.page-about .about-timeline-year { position: relative; font-size: 29px; line-height: 1.5; color: var(--primary); font-weight: 700; font-variant-numeric: tabular-nums; }
+.page-about .about-timeline-content h3 { font-size: 20px; margin-bottom: 10px; }
+.page-about .about-timeline-content p { color: var(--muted); font-size: 15px; line-height: 1.9; }
+.page-about .about-experience-heading { max-width: 920px; margin-bottom: 35px; }
+.page-about .about-experience-visual { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+.page-about .about-experience-visual > * { min-width: 0; }
+.page-about .about-experience-summary h3 { font-size: 24px; margin-bottom: 18px; }
+.page-about .about-experience-summary p { margin-top: 15px; color: var(--muted); line-height: 1.95; }
+.page-about .about-experience-summary strong { color: var(--navy); font-weight: 600; }
+.page-about .about-experience-summary > .text-link { margin-top: 18px; }
+.page-about .about-experience-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 56px; margin-top: 40px; }
+.page-about .about-experience-grid article { border-top: 2px solid #b6ccdb; padding-top: 20px; }
+.page-about .about-experience-grid h3 { font-size: 21px; margin-bottom: 12px; }
+.page-about .about-experience-grid p { color: var(--muted); font-size: 15px; line-height: 1.9; }
+.page-about .about-development-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 70px; }
+.page-about .about-development dl { margin: 0; }
+.page-about .about-development dl > div + div { margin-top: 24px; }
+.page-about .about-development dt { color: var(--navy); font-weight: 650; font-size: 19px; margin-bottom: 8px; }
+.page-about .about-development dd { margin: 0; color: var(--muted); line-height: 1.9; }
+.page-about .about-development-note { color: var(--muted); font-size: 14px; margin-top: 22px; }
+.page-about .about-development .text-link { margin-top: 15px; }
+@media (max-width: 1000px) {
+  .page-about .about-company-grid { gap: 34px; }
+  .page-about .about-credentials { padding: 25px; }
+  .page-about .about-history-heading { gap: 30px; }
+  .page-about .about-timeline { column-gap: 30px; }
+  .page-about .about-timeline > li { grid-template-columns: 68px minmax(0, 1fr); gap: 17px; }
+  .page-about .about-timeline-year { font-size: 26px; }
+  .page-about .about-experience-visual { gap: 30px; }
+  .page-about .about-experience-grid { column-gap: 30px; }
+  .page-about .about-development-grid { gap: 38px; }
+}
+@media (max-width: 760px) {
+  .page-about .about-company-grid { grid-template-columns: 1fr; gap: 28px; }
+  .page-about .about-company-lead { font-size: 22px; }
+  .page-about .about-company-copy > p:not(.about-company-lead) { font-size: 15px; }
+  .page-about .about-credentials { padding: 24px 22px; }
+  .page-about .about-history-heading { display: block; margin-bottom: 26px; }
+  .page-about .about-history-subject { margin-top: 20px; padding-left: 14px; }
+  .page-about .about-timeline { grid-template-columns: 1fr; }
+  .page-about .about-timeline > li { grid-template-columns: 65px minmax(0, 1fr); gap: 16px; padding-block: 23px; }
+  .page-about .about-timeline-content h3 { font-size: 19px; }
+  .page-about .about-timeline-content p { font-size: 14px; }
+  .page-about .about-experience-visual { grid-template-columns: 1fr; }
+  .page-about .about-experience-summary h3 { font-size: 22px; }
+  .page-about .about-experience-summary p { font-size: 15px; }
+  .page-about .about-experience-grid { grid-template-columns: 1fr; gap: 26px; margin-top: 30px; }
+  .page-about .about-development-grid { grid-template-columns: 1fr; gap: 28px; }
+  .page-about .about-development dd { font-size: 15px; }
+}

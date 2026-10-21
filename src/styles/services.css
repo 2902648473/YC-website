@@ -1,0 +1,91 @@
+/* Service preparation page. No changes to the homepage or other inner pages. */
+.page-services .service-start { padding-block: 44px 52px; }
+.page-services .service-start .section-heading { max-width: 940px; margin-bottom: 25px; }
+.page-services .service-start .section-title { font-size: 27px; }
+.page-services .service-start .section-heading > .section-intro { max-width: 920px; }
+.page-services .service-audience-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--border); border-top: 3px solid var(--primary); }
+.page-services .service-audience-grid > a { display: flex; flex-direction: column; gap: 10px; padding: 24px; min-width: 0; background: #fff; }
+.page-services .service-audience-grid > a + a { border-left: 1px solid var(--border); }
+.page-services .service-audience-grid > a:hover { background: #f1f6f9; }
+.page-services .service-audience-grid > a:focus-visible { position: relative; z-index: 1; }
+.page-services .service-audience-title { display: flex; gap: 10px; align-items: center; color: var(--navy); font-size: 21px; }
+.page-services .service-audience-title .icon { color: var(--primary); width: 27px; height: 27px; }
+.page-services .service-audience-summary { color: var(--navy); font-weight: 600; font-size: 15px; }
+.page-services .service-audience-detail { color: var(--muted); font-size: 14px; line-height: 1.85; }
+.page-services .service-audience-grid .text-link { margin-top: auto; padding-top: 4px; }
+.page-services .service-detail { scroll-margin-top: 22px; padding-block: 62px; }
+.page-services .service-detail-heading { display: flex; align-items: start; justify-content: space-between; gap: 30px; margin-bottom: 30px; }
+.page-services .service-detail-heading > div { max-width: 920px; }
+.page-services .service-detail-heading > .text-link { flex-shrink: 0; margin-top: 18px; }
+.page-services .service-preparation-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 50px; }
+.page-services .service-preparation-grid > div { min-width: 0; }
+.page-services .service-preparation-grid h3, .page-services .service-followup > h3 { font-size: 22px; margin-bottom: 12px; }
+.page-services .service-block-intro { color: var(--muted); font-size: 14px; margin-bottom: 15px; }
+.page-services .service-material-list { margin: 0; border-top: 2px solid var(--primary); }
+.page-services .service-material-list > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 20px; padding: 17px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.85; }
+.page-services .service-material-list dt { font-weight: 650; color: var(--navy); }
+.page-services .service-material-list dd { margin: 0; color: var(--muted); }
+.page-services .service-actions { border-left: 1px solid var(--border); padding-left: 35px; }
+.page-services .service-action-list { margin: 19px 0 0; padding-left: 24px; }
+.page-services .service-action-list > li { padding-left: 5px; margin-bottom: 20px; }
+.page-services .service-action-list > li::marker { color: var(--primary); font-weight: 700; }
+.page-services .service-action-list strong { display: block; color: var(--navy); font-size: 16px; margin-bottom: 5px; }
+.page-services .service-action-list p { color: var(--muted); font-size: 15px; line-height: 1.85; }
+.page-services .service-special { padding: 17px 19px; border-left: 3px solid var(--green); background: #edf3f7; color: var(--muted); font-size: 14px; }
+.page-services .service-special strong { color: var(--navy); }
+.page-services .service-followup { margin-top: 35px; }
+.page-services .service-route { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; list-style: none; margin: 19px 0 0; padding: 0; }
+.page-services .service-route > li { min-width: 0; padding: 20px; border: 1px solid var(--border); background: #fff; }
+.page-services .service-route-number { display: inline-grid; place-items: center; width: 29px; height: 29px; color: var(--primary); background: #edf3f7; border-radius: 50%; font-weight: 700; margin-bottom: 10px; }
+.page-services .service-route h4 { color: var(--navy); font-size: 17px; line-height: 1.5; margin-bottom: 7px; }
+.page-services .service-route p { color: var(--muted); font-size: 14px; line-height: 1.8; }
+.page-services .service-result-note { margin-top: 27px; padding: 25px; background: #fff; border-left: 3px solid var(--green); }
+.page-services .service-result-note h3 { font-size: 20px; margin-bottom: 16px; }
+.page-services .service-result-note dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 25px; margin: 0; }
+.page-services .service-result-note dt { color: var(--navy); font-weight: 650; font-size: 16px; }
+.page-services .service-result-note dd { color: var(--muted); margin: 5px 0 0; font-size: 14px; }
+.page-services .service-result-note > p { margin-top: 18px; color: var(--muted); font-size: 14px; }
+.page-services .service-detail-link { margin-top: 15px; }
+.page-services .service-checklist-extra { margin-top: 15px; color: var(--muted); font-size: 14px; }
+.page-services .preparation-table { min-width: 880px; }
+.page-services .service-cooperation-context { display: grid; grid-template-columns: .8fr 1fr; align-items: center; gap: 35px; margin-top: 35px; padding-top: 35px; border-top: 1px solid var(--border); }
+.page-services .service-cooperation-context > div { min-width: 0; }
+.page-services .service-cooperation-context h3 { font-size: 22px; margin-bottom: 15px; }
+.page-services .service-cooperation-context p { color: var(--muted); font-size: 15px; margin-bottom: 15px; }
+.page-services .service-reference { padding-block: 44px; }
+.page-services .service-reference .section-title { font-size: 26px; }
+.page-services .service-reference p { max-width: 960px; color: var(--muted); margin-top: 17px; font-size: 15px; }
+.page-services .service-reference .service-official-source { font-size: 13px; margin-top: 24px; }
+.page-services .service-official-source a { text-decoration: underline; text-decoration-color: #abc4d4; }
+@media (max-width: 1000px) {
+  .page-services .service-audience-grid > a { padding: 20px 18px; }
+  .page-services .service-audience-title { font-size: 19px; }
+  .page-services .service-preparation-grid { gap: 28px; }
+  .page-services .service-actions { padding-left: 25px; }
+  .page-services .service-material-list > div { grid-template-columns: 1fr; gap: 5px; }
+  .page-services .service-route { gap: 15px; }
+  .page-services .service-route > li { padding: 18px 15px; }
+}
+@media (max-width: 760px) {
+  .page-services .service-start { padding-block: 34px 40px; }
+  .page-services .service-start .section-title { font-size: 24px; }
+  .page-services .service-audience-grid { grid-template-columns: 1fr; }
+  .page-services .service-audience-grid > a { padding: 20px; gap: 8px; }
+  .page-services .service-audience-grid > a + a { border-left: 0; border-top: 1px solid var(--border); }
+  .page-services .service-audience-grid .text-link { min-height: 32px; }
+  .page-services .service-detail { padding-block: 42px; }
+  .page-services .service-detail-heading { display: block; margin-bottom: 24px; }
+  .page-services .service-detail-heading > .text-link { margin-top: 10px; }
+  .page-services .service-preparation-grid { grid-template-columns: 1fr; gap: 28px; }
+  .page-services .service-actions { padding: 0; border: 0; }
+  .page-services .service-preparation-grid h3, .page-services .service-followup > h3 { font-size: 21px; }
+  .page-services .service-route { grid-template-columns: 1fr; gap: 0; }
+  .page-services .service-route > li { position: relative; padding: 17px 17px 17px 59px; }
+  .page-services .service-route > li + li { border-top: 0; }
+  .page-services .service-route-number { position: absolute; top: 18px; left: 16px; }
+  .page-services .service-result-note { padding: 22px 20px; }
+  .page-services .service-result-note dl { grid-template-columns: 1fr; gap: 18px; }
+  .page-services .service-cooperation-context { grid-template-columns: 1fr; gap: 24px; padding-top: 25px; }
+  .page-services .service-cooperation-context h3 { font-size: 21px; }
+  .page-services .service-reference .section-title { font-size: 24px; }
+}
