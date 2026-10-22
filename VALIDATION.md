@@ -15,3 +15,12 @@
 Vite 构建成功时仍有上游 `vite:css-post` 的 SSR CSS source map 提示，不影响本次页面、Worker 运行与部署预检查；需要调试 CSS 映射时应留意该限制。
 
 未覆盖 Cloudflare 真实账号部署、实际域名与大陆公网速度、微信客户端扫码有效性、搜索引擎收录。200% 缩放检查为视口重排近似，不声称完成真实浏览器缩放验证。
+
+## 2026-10-22 线上首页 500 修复
+
+- 只读访问 `https://yucheng.dpdns.org/` 确认 HTTP 500，服务端错误为 `SITE_URL must be an absolute HTTPS domain`；GitHub 提交 `5b352e8` 的配置缺少 `https://`。
+- 修正正式域名为 `https://yucheng.dpdns.org`，保留已开启的收录设置。运行时只对明确的 SEO 配置错误关闭收录并记录日志，正常显示页面；构建阶段继续严格拒绝错误配置。
+- 类型检查、7 项单元测试、生产构建与部署 dry-run 全部通过。
+- 生产 Worker 本地运行时验证：正确域名、缺少 HTTPS 前缀、JSON 布尔值三种场景下，六个内容页均返回 200；正确配置生成 canonical 和六页 sitemap，错误配置移除 canonical、robots 禁抓取、sitemap 返回 404。
+- 本地生产预览验证：六页 SSR、404、51 个链接与资源、重定向和 SEO 端点通过；现有浏览器回归 52/52 通过。
+- 此记录中的修复验证在本地完成；线上恢复需等待 Cloudflare 部署新提交后另行确认。

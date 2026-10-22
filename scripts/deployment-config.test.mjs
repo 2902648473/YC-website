@@ -33,6 +33,33 @@ test('a final domain can be configured while search indexing remains disabled', 
   assert.doesNotMatch(robotsText(config), /Sitemap:/);
 });
 
+test('invalid runtime SEO bindings keep pages available while disabling all indexing', (t) => {
+  const log = t.mock.method(console, 'error', () => {});
+  const invalidBindings = [
+    { SITE_URL: 'yucheng.dpdns.org', SITE_INDEXING: 'true' },
+    { SITE_INDEXING: 'true' },
+    { SITE_URL: 'https://yucheng.dpdns.org', SITE_INDEXING: true },
+    { SITE_URL: { hostname: 'yucheng.dpdns.org' } },
+    { SITE_URL: 'https://yucheng.dpdns.org', SITE_INDEXING: 'yes' },
+  ];
+  for (const bindings of invalidBindings) {
+    assert.throws(() => getDeploymentConfig(bindings));
+    const config = getRequestDeploymentConfig(bindings, 'https://yucheng.dpdns.org/');
+    assert.deepEqual(config, { siteUrl: null, indexing: false });
+    assert.equal(pageMetadata(config, 'index').robots, 'noindex, nofollow');
+    assert.match(robotsText(config), /Disallow: \//);
+    assert.equal(sitemapXml(config), null);
+  }
+  assert.equal(log.mock.callCount(), invalidBindings.length);
+});
+
+test('runtime SEO fallback does not swallow unrelated failures', () => {
+  const failure = new Error('Unexpected binding access error');
+  assert.throws(() => getRequestDeploymentConfig({
+    get SITE_URL() { throw failure; },
+  }, 'https://yucheng.dpdns.org/'), error => error === failure);
+});
+
 test('indexing requires an explicit valid final HTTPS root domain', () => {
   assert.throws(() => getDeploymentConfig({ SITE_INDEXING: 'true' }), /requires SITE_URL/);
   assert.throws(() => getDeploymentConfig({ SITE_INDEXING: 'yes' }), /must be true or false/);

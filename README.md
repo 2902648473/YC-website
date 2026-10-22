@@ -26,7 +26,7 @@
 
 ## 2. 绑定正式域名和开启搜索收录
 
-首次部署默认关闭收录，页面正常访问，但不会主动要求搜索引擎收录测试网址。先验收网站，再绑定正式域名。
+当前配置的正式域名为 `https://yucheng.dpdns.org`，已开启该域名的搜索收录；其他预览域名保持关闭收录。更换域名时按下面的步骤更新配置。
 
 1. 将自己的域名接入 Cloudflare，在 Worker 的 **Settings → Domains & Routes → Add → Custom Domain** 添加正式域名，等待 DNS 与证书生效。参考 [Custom Domains 官方步骤](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)。
 2. 编辑仓库根目录 `wrangler.jsonc` 的 `vars`。将 `SITE_URL` 填为实际 HTTPS 域名根地址，例如 `https://www.example.com`；正式准备被收录时，将 `SITE_INDEXING` 改为字符串 `"true"`。
@@ -34,6 +34,8 @@
 4. 在百度搜索资源平台等站长平台添加并验证实际域名，按平台当前可用入口提交网址或站点地图。收录、展示时间和“报废车回收”的排名由搜索引擎决定，上线不等于立即能搜到。
 
 `SITE_URL` 和 `SITE_INDEXING` 是 **Worker 运行时变量**，不是 `VITE_*` 构建变量。以仓库中的 `wrangler.jsonc` 为配置来源；只改 Cloudflare 面板的同名变量，后续部署可能被文件覆盖。虽然扩展名是 `.jsonc`，本项目校验脚本要求保持合法 JSON，不加入注释。只有请求来源与 `SITE_URL` 完全一致才开放收录，其他预览域名继续 `noindex`。关闭收录时 sitemap 返回 404，这是预期行为。
+
+`SITE_URL` 必须包含 `https://`，不能只填 `yucheng.dpdns.org`。`SITE_INDEXING` 必须使用文本值 `"true"` 或 `"false"`。`npm run check` 会拒绝错误配置；如果运行时变量被改错，网站仍显示正文，但关闭收录、移除 canonical，并在 Worker 日志记录 `[site-config]` 错误，修正后重新部署即可恢复。
 
 如果通过文件管理域名，可在 `wrangler.jsonc` 增加 `routes: [{ "pattern": "你的实际域名", "custom_domain": true }]`，并保证该域名已在对应 Cloudflare 账号生效。不要提交示例域名。
 
